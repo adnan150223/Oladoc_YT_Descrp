@@ -10,8 +10,16 @@ import re
 import imageio_ffmpeg as ffmpeg  # Import imageio-ffmpeg to get the ffmpeg executable
 
 # --- Configuration ---
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"H:\Oladoc\Auto Youtube Descriptor\gen-lang-client-0407485922-53b28f3dc3ef.json"
-GEMINI_API_KEY = "AIzaSyArGVk8sNqtpjqX1wBvqvpfJQ5vXFML02A"
+load_dotenv()
+
+# Get the Google Cloud credentials path from the environment variable
+google_credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+
+# Set the credentials for Google API
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_credentials_path
+
+# --- Configuration ---
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
 
 # --- Helper Functions ---
