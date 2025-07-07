@@ -7,20 +7,11 @@ import google.generativeai as genai
 from google.cloud import speech
 from pydub import AudioSegment
 import re
-
-from dotenv import load_dotenv
-
-# Load environment variables from the .env file
-load_dotenv()
-
-# Get the Google Cloud credentials path from the environment variable
-google_credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-
-# Set the credentials for Google API
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_credentials_path
+import imageio_ffmpeg as ffmpeg  # Import imageio-ffmpeg to get the ffmpeg executable
 
 # --- Configuration ---
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"H:\Oladoc\Auto Youtube Descriptor\gen-lang-client-0407485922-53b28f3dc3ef.json"
+GEMINI_API_KEY = "AIzaSyArGVk8sNqtpjqX1wBvqvpfJQ5vXFML02A"
 genai.configure(api_key=GEMINI_API_KEY)
 
 # --- Helper Functions ---
@@ -48,9 +39,17 @@ def split_video(input_path, chunk_size_mb=200):
 
     return output_files
 
-# Extract audio from video
+# Extract audio from video using imageio-ffmpeg
 def extract_audio(video_path, output_path):
-    command = ["ffmpeg", "-y", "-i", video_path, "-ac", "1", "-ar", "16000", output_path]
+    # Get the ffmpeg executable from imageio-ffmpeg
+    ffmpeg_executable = ffmpeg.get_ffmpeg_exe()
+
+    # Check if ffmpeg is available
+    if not ffmpeg_executable:
+        raise FileNotFoundError("FFmpeg executable not found. Please ensure that imageio-ffmpeg is installed correctly.")
+
+    # Run the ffmpeg command
+    command = [ffmpeg_executable, "-y", "-i", video_path, "-ac", "1", "-ar", "16000", output_path]
     subprocess.run(command, check=True)
 
 # Split audio into smaller chunks
@@ -143,12 +142,6 @@ def clean_description(description):
         cleaned_lines.append(line)
     return '\n'.join(cleaned_lines).strip()
 
-# --- Ensure Description Length is 2000 Characters for Large Videos ---
-def limit_description_length(description, max_length=2000):
-    if len(description) > max_length:
-        return description[:max_length]
-    return description
-
 # --- Streamlit UI ---
 st.set_page_config(page_title="Auto YouTube Description Generator", layout="centered")
 st.title("🎬 Auto YouTube Description Generator")
@@ -205,20 +198,7 @@ if uploaded_file:
     description = generate_youtube_description(
         english_text, doctor_name, specialization, clinic, city, booking_link
     )
-    
-    # Limit the description length to 2000 characters for large videos
-    if os.path.getsize(video_path) > 200 * 1024 * 1024:
-        description = limit_description_length(description, 2000)
-    
-    # Clean the description
     description = clean_description(description)  # Clean the description
-    
-    # Ensure the description is in 4 paragraphs
-    paragraphs = description.split("\n")
-    paragraph_count = 4
-    if len(paragraphs) > paragraph_count:
-        paragraph_size = len(paragraphs) // paragraph_count
-        description = "\n".join(paragraphs[:paragraph_size]) + "\n\n" + "\n".join(paragraphs[paragraph_size:paragraph_size*2]) + "\n\n" + "\n".join(paragraphs[paragraph_size*2:paragraph_size*3]) + "\n\n" + "\n".join(paragraphs[paragraph_size*3:])
-    
     st.markdown("### 📄 Final YouTube Description")
     st.text_area("Generated Description", description, height=300)
+
