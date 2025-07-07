@@ -4,3 +4,4 @@ google-generativeai==0.8.0  # Compatible version for Python 3.11
 ffmpeg-python==0.2.0
 pydub==0.25.1
 requests==2.28.1
+altair==4.2.0
