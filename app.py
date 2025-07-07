@@ -8,7 +8,7 @@ from google.cloud import speech
 from pydub import AudioSegment
 import re
 import imageio_ffmpeg as ffmpeg  # Import imageio-ffmpeg to get the ffmpeg executable
-
+from dotenv import load_dotenv
 # --- Configuration ---
 load_dotenv()
 
