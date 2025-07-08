@@ -15,12 +15,13 @@ import re
 # --- Use Streamlit Secrets to access credentials --- 
 google_credentials_json = st.secrets["GOOGLE_APPLICATION_CREDENTIALS"]
 
-# Write the JSON credentials to a temporary file that Google API can use
+# Write the JSON credentials to a temporary file
 with open("/tmp/credentials.json", "w") as json_file:
     json_file.write(google_credentials_json)
 
-# Set the credentials environment variable for Google APIs
+# Set the environment variable for Google Cloud
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/tmp/credentials.json"
+
 
 # --- Configuration ---
 GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
