@@ -1,4 +1,4 @@
-import os
+
 import io
 import tempfile
 import subprocess
@@ -12,14 +12,36 @@ from dotenv import load_dotenv
 # --- Configuration ---
 load_dotenv()
 
-import subprocess
+from google.cloud import storage
+import os
 
-# Download the credentials file from Google Cloud Storage
-subprocess.run(["gsutil", "cp", "gs://oladoc-credentials-bucket/gen-lang-client-0407485922-53b28f3dc3ef.json", "./gen-lang-client-0407485922-53b28f3dc3ef.json"])
+# Function to download the credentials file from Google Cloud Storage
+def download_credentials_from_gcs(bucket_name, source_blob_name, destination_file_name):
+    # Create a storage client
+    storage_client = storage.Client()
+
+    # Reference the bucket and blob
+    bucket = storage_client.get_bucket(bucket_name)
+    blob = bucket.blob(source_blob_name)
+
+    # Download the blob to the local file system
+    blob.download_to_filename(destination_file_name)
+    print(f"Downloaded {source_blob_name} to {destination_file_name}")
+
+# Set the path where the credentials file will be saved locally
+local_credentials_path = "./gen-lang-client-0407485922-53b28f3dc3ef.json"
+
+# Download the credentials file
+download_credentials_from_gcs(
+    "oladoc-credentials-bucket",  # Your bucket name
+    "gen-lang-client-0407485922-53b28f3dc3ef.json",  # Path of the file in the bucket
+    local_credentials_path  # Path to save the file locally
+)
+
+# Now, set the environment variable for authentication
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = local_credentials_path
 
 
-# Get the Google Cloud credentials path from the environment variable
-google_credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
 # Set the credentials for Google API
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_credentials_path
