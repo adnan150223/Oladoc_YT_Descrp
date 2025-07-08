@@ -2,6 +2,7 @@ import os
 import io
 import tempfile
 import subprocess
+import imageio_ffmpeg as ffmpeg
 import streamlit as st
 from google.cloud import storage
 import google.generativeai as genai
