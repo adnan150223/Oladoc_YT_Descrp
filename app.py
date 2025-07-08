@@ -15,6 +15,9 @@ import requests
 # Load environment variables from the .env file
 load_dotenv()
 
+# Set FFMPEG_BINARY to the correct path using imageio_ffmpeg
+os.environ["FFMPEG_BINARY"] = ffmpeg.get_ffmpeg_exe()
+
 # --- Function to Set Google Credentials from Streamlit Secrets ---
 def set_google_credentials_from_secrets():
     """Set Google credentials using the credentials stored in Streamlit Secrets."""
