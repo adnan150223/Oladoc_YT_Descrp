@@ -124,6 +124,13 @@ Your goal is to:
 Here's the Urdu text to translate:
 
 {urdu_text}
+
+If there are sections that are incomplete, unclear, or contain transcription errors, please:
+- *Provide the best possible translation* and note the issue with the original text.
+- If the translation of a specific term or phrase is unclear, explain your interpretation.
+
+Provide the translated text, fixing any errors and ensuring clarity.
+
 """
     model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(prompt)
@@ -133,21 +140,21 @@ Here's the Urdu text to translate:
 def generate_youtube_description(english_text, doctor_name, specialization, clinic, city, booking_link):
     model = genai.GenerativeModel("gemini-2.5-flash")
     prompt = f"""
-        You are a professional content creator for a healthcare platform. Your task is to generate a *YouTube video description* based on the provided text. The description should be clear, engaging, and SEO-optimized for a general audience, with both English and Roman Urdu text included. The description should be simple enough for a broad audience to understand.
+       You are a professional content creator for a healthcare platform. Your task is to generate a *YouTube video description* based on the provided text. The description should be clear, engaging, and SEO-optimized for a general audience, with both English and Roman Urdu text included. The description should be simple enough for a broad audience to understand.
 
         The text you need to work with is the following:
 
         *English Text:*
         {english_text}
-
-        Your output should be a well-structured YouTube description with the following sections without mention any heading write in the form of the paragraph just symptom should be write in the bullets:
+        Make sure the whole description should be maximum of 2000 words limit. Do not make the headings and not bold words. Write everything in simple font.
+        Your output should be a well-structured YouTube description with the following sections:
 
         Create a bilingual title (English + Roman Urdu) in 80 to 90 characters that is attention-grabbing and summarizes the video topic. Use simple language that is relatable to the local audience. Use the title words in the rest of the description.
         The first 2-3 sentences should briefly summarize the key points of the video. Mention why it’s important and grab the viewer's attention. Use simple, engaging English to make it relatable.
-        Mention the doctor's name{doctor_name}, specialization{specialization}, and the clinic/hospital{clinic} they practice at city name{city}. Provide the booking link{booking_link} for consultations if applicable. Keep it concise and clear.
-        Use bullet points or a numbered list to mention the key topics covered in the video. Focus on making it simple and engaging, using simple English wherever applicable.
-        Share actionable advice or solutions that can help viewers.
-        Include a strong call to action encouraging viewers to book a consultation or contact the doctor. Provide a booking link or phone number. Ensure that the CTA uses simple English language to encourage immediate action.
+        Mention the doctor's name{doctor_name}, specialization{specialization}, and the clinic/hospital{clinic} they practice at with city name(city). Provide the booking link{booking_link} for consultations if applicable. Keep it concise and clear.
+        Use ✓ bullets for bullet points or a numbered list to mention the key topics covered in the video. Focus on making it simple and engaging, using simple English wherever applicable.
+        Share actionable advice or solutions that can help viewers. Include a strong call to action encouraging viewers to book a consultation or contact the doctor. Provide a booking link or phone number. Also Mention SEO Keywords in the last line. Ensure that the CTA uses simple English language to encourage immediate action.
+          
         """
     response = model.generate_content(prompt)
     return response.text
