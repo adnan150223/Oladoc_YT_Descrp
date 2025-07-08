@@ -52,14 +52,14 @@ client = speech.SpeechClient()  # Initialize Speech-to-Text client
 
 # Compress video to smaller size
 def compress_video(input_path, output_path):
-    command = ["ffmpeg", "-i", input_path, "-vcodec", "libx264", "-crf", "28", output_path]
+    command = [os.environ["FFMPEG_BINARY"], "-i", input_path, "-vcodec", "libx264", "-crf", "28", output_path]
     subprocess.run(command, check=True)
 
 # Split video into smaller chunks based on size
 def split_video(input_path, chunk_size_mb=200):
     output_files = []
     # Get the duration of the video
-    command = ["ffmpeg", "-i", input_path, "-f", "null", "-"]
+    command = [os.environ["FFMPEG_BINARY"], "-i", input_path, "-f", "null", "-"]
     result = subprocess.run(command, capture_output=True, text=True)
     duration = float(result.stderr.split("Duration: ")[1].split(",")[0].split(":")[2])
 
@@ -67,7 +67,7 @@ def split_video(input_path, chunk_size_mb=200):
     chunk_count = int(duration // (chunk_size_mb * 8 / 1000))  # approx. size in seconds
     for i in range(chunk_count):
         output_file = f"chunk_{i + 1}.mp4"
-        command = ["ffmpeg", "-i", input_path, "-ss", str(i * chunk_size_mb), "-t", str(chunk_size_mb), output_file]
+        command = [os.environ["FFMPEG_BINARY"], "-i", input_path, "-ss", str(i * chunk_size_mb), "-t", str(chunk_size_mb), output_file]
         subprocess.run(command, check=True)
         output_files.append(output_file)
 
@@ -75,7 +75,7 @@ def split_video(input_path, chunk_size_mb=200):
 
 # Extract audio from video
 def extract_audio(video_path, output_path):
-    command = ["ffmpeg", "-y", "-i", video_path, "-ac", "1", "-ar", "16000", output_path]
+    command = [os.environ["FFMPEG_BINARY"], "-y", "-i", video_path, "-ac", "1", "-ar", "16000", output_path]
     subprocess.run(command, check=True)
 
 # Split audio into smaller chunks
