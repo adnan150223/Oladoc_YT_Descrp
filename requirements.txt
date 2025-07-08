@@ -7,3 +7,5 @@ requests==2.28.1
 altair==4.2.0
 python-dotenv==0.19.2
 google-cloud-storage
+ffmpeg-python
+ffmpeg
