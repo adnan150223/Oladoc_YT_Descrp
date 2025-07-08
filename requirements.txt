@@ -1,11 +1,11 @@
 streamlit==1.18.0
 google-cloud-speech==2.33.0
 google-generativeai==0.8.0
-imageio-ffmpeg
+ffmpeg-python
+ffmpeg
+
 pydub==0.25.1
 requests==2.28.1
 altair==4.2.0
 python-dotenv==0.19.2
 google-cloud-storage
-ffmpeg-python
-ffmpeg
