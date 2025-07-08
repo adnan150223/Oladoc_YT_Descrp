@@ -8,23 +8,25 @@ from google.cloud import speech
 from pydub import AudioSegment
 import re
 
-from dotenv import load_dotenv
+# --- Remove the dotenv code because we don't need it anymore ---
+# from dotenv import load_dotenv
+# load_dotenv()
 
-# Load environment variables from the .env file
-load_dotenv()
+# --- Use Streamlit Secrets to access credentials --- 
+google_credentials_json = st.secrets["GOOGLE_APPLICATION_CREDENTIALS"]
 
-# Get the Google Cloud credentials path from the environment variable
-google_credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+# Write the JSON credentials to a temporary file that Google API can use
+with open("/tmp/credentials.json", "w") as json_file:
+    json_file.write(google_credentials_json)
 
-# Set the credentials for Google API
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_credentials_path
+# Set the credentials environment variable for Google APIs
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/tmp/credentials.json"
 
 # --- Configuration ---
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=GEMINI_API_KEY)
 
 # --- Helper Functions ---
-
 # Compress video to smaller size
 def compress_video(input_path, output_path):
     command = ["ffmpeg", "-i", input_path, "-vcodec", "libx264", "-crf", "28", output_path]
