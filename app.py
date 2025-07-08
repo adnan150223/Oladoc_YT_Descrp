@@ -1,4 +1,4 @@
-
+import os
 import io
 import tempfile
 import subprocess
@@ -7,41 +7,14 @@ import google.generativeai as genai
 from google.cloud import speech
 from pydub import AudioSegment
 import re
-import imageio_ffmpeg as ffmpeg  # Import imageio-ffmpeg to get the ffmpeg executable
+
 from dotenv import load_dotenv
-# --- Configuration ---
+
+# Load environment variables from the .env file
 load_dotenv()
 
-from google.cloud import storage
-import os
-
-# Function to download the credentials file from Google Cloud Storage
-def download_credentials_from_gcs(bucket_name, source_blob_name, destination_file_name):
-    # Create a storage client
-    storage_client = storage.Client()
-
-    # Reference the bucket and blob
-    bucket = storage_client.get_bucket(bucket_name)
-    blob = bucket.blob(source_blob_name)
-
-    # Download the blob to the local file system
-    blob.download_to_filename(destination_file_name)
-    print(f"Downloaded {source_blob_name} to {destination_file_name}")
-
-# Set the path where the credentials file will be saved locally
-local_credentials_path = "./gen-lang-client-0407485922-53b28f3dc3ef.json"
-
-# Download the credentials file
-download_credentials_from_gcs(
-    "oladoc-credentials-bucket",  # Your bucket name
-    "gen-lang-client-0407485922-53b28f3dc3ef.json",  # Path of the file in the bucket
-    local_credentials_path  # Path to save the file locally
-)
-
-# Now, set the environment variable for authentication
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = local_credentials_path
-
-
+# Get the Google Cloud credentials path from the environment variable
+google_credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
 # Set the credentials for Google API
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = google_credentials_path
@@ -75,17 +48,9 @@ def split_video(input_path, chunk_size_mb=200):
 
     return output_files
 
-# Extract audio from video using imageio-ffmpeg
+# Extract audio from video
 def extract_audio(video_path, output_path):
-    # Get the ffmpeg executable from imageio-ffmpeg
-    ffmpeg_executable = ffmpeg.get_ffmpeg_exe()
-
-    # Check if ffmpeg is available
-    if not ffmpeg_executable:
-        raise FileNotFoundError("FFmpeg executable not found. Please ensure that imageio-ffmpeg is installed correctly.")
-
-    # Run the ffmpeg command
-    command = [ffmpeg_executable, "-y", "-i", video_path, "-ac", "1", "-ar", "16000", output_path]
+    command = ["ffmpeg", "-y", "-i", video_path, "-ac", "1", "-ar", "16000", output_path]
     subprocess.run(command, check=True)
 
 # Split audio into smaller chunks
@@ -178,6 +143,12 @@ def clean_description(description):
         cleaned_lines.append(line)
     return '\n'.join(cleaned_lines).strip()
 
+# --- Ensure Description Length is 2000 Characters for Large Videos ---
+def limit_description_length(description, max_length=2000):
+    if len(description) > max_length:
+        return description[:max_length]
+    return description
+
 # --- Streamlit UI ---
 st.set_page_config(page_title="Auto YouTube Description Generator", layout="centered")
 st.title("🎬 Auto YouTube Description Generator")
@@ -234,7 +205,20 @@ if uploaded_file:
     description = generate_youtube_description(
         english_text, doctor_name, specialization, clinic, city, booking_link
     )
+    
+    # Limit the description length to 2000 characters for large videos
+    if os.path.getsize(video_path) > 200 * 1024 * 1024:
+        description = limit_description_length(description, 2000)
+    
+    # Clean the description
     description = clean_description(description)  # Clean the description
+    
+    # Ensure the description is in 4 paragraphs
+    paragraphs = description.split("\n")
+    paragraph_count = 4
+    if len(paragraphs) > paragraph_count:
+        paragraph_size = len(paragraphs) // paragraph_count
+        description = "\n".join(paragraphs[:paragraph_size]) + "\n\n" + "\n".join(paragraphs[paragraph_size:paragraph_size*2]) + "\n\n" + "\n".join(paragraphs[paragraph_size*2:paragraph_size*3]) + "\n\n" + "\n".join(paragraphs[paragraph_size*3:])
+    
     st.markdown("### 📄 Final YouTube Description")
     st.text_area("Generated Description", description, height=300)
-
