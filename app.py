@@ -3,31 +3,52 @@ import io
 import tempfile
 import subprocess
 import streamlit as st
+from google.cloud import storage
 import google.generativeai as genai
 from google.cloud import speech
 from pydub import AudioSegment
 import re
+from dotenv import load_dotenv
+import requests
 
-# --- Remove the dotenv code because we don't need it anymore ---
-# from dotenv import load_dotenv
-# load_dotenv()
+# Load environment variables from the .env file
+load_dotenv()
 
-# --- Use Streamlit Secrets to access credentials --- 
-google_credentials_json = st.secrets["GOOGLE_APPLICATION_CREDENTIALS"]
+# --- Function to Set Google Credentials from Streamlit Secrets ---
+def set_google_credentials_from_secrets():
+    """Set Google credentials using the credentials stored in Streamlit Secrets."""
+    try:
+        # Access the service account credentials from Streamlit Secrets
+        service_account_json = st.secrets["GOOGLE_APPLICATION_CREDENTIALS"]
 
-# Write the JSON credentials to a temporary file
-with open("/tmp/credentials.json", "w") as json_file:
-    json_file.write(google_credentials_json)
+        # Create a temporary file to save the credentials
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as temp_file:
+            temp_file.write(service_account_json.encode('utf-8'))
+            temp_file_path = temp_file.name
 
-# Set the environment variable for Google Cloud
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/tmp/credentials.json"
-
+        # Set the path to the downloaded credentials for Google Cloud API authentication
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = temp_file_path
+        st.success("✅ Successfully authenticated using the service account credentials.")
+    except Exception as e:
+        st.error(f"❌ Error in setting credentials: {str(e)}")
 
 # --- Configuration ---
-GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 genai.configure(api_key=GEMINI_API_KEY)
 
+# --- Streamlit UI ---
+st.set_page_config(page_title="Auto YouTube Description Generator", layout="centered")
+st.title("🎬 Auto YouTube Description Generator")
+st.markdown("Upload a video file in Urdu and get a YouTube-ready description.")
+
+# --- Use the service account credentials from secrets ---
+set_google_credentials_from_secrets()
+
+# --- Now you can use Google APIs with the authenticated service account ---
+client = speech.SpeechClient()  # Initialize Speech-to-Text client
+
 # --- Helper Functions ---
+
 # Compress video to smaller size
 def compress_video(input_path, output_path):
     command = ["ffmpeg", "-i", input_path, "-vcodec", "libx264", "-crf", "28", output_path]
@@ -69,8 +90,7 @@ def split_audio(audio_path, chunk_length_ms=30000):
 
 # Transcribe audio using Google Speech-to-Text
 def transcribe_google(audio_path):
-    client = speech.SpeechClient()
-    with io.open(audio_path, "rb") as audio_file:
+    with open(audio_path, "rb") as audio_file:
         content = audio_file.read()
     audio = speech.RecognitionAudio(content=content)
     config = speech.RecognitionConfig(
@@ -100,12 +120,6 @@ Your goal is to:
 Here's the Urdu text to translate:
 
 {urdu_text}
-
-If there are sections that are incomplete, unclear, or contain transcription errors, please:
-- *Provide the best possible translation* and note the issue with the original text.
-- If the translation of a specific term or phrase is unclear, explain your interpretation.
-
-Provide the translated text, fixing any errors and ensuring clarity.
 """
     model = genai.GenerativeModel("gemini-1.5-flash")
     response = model.generate_content(prompt)
@@ -153,11 +167,6 @@ def limit_description_length(description, max_length=2000):
     return description
 
 # --- Streamlit UI ---
-st.set_page_config(page_title="Auto YouTube Description Generator", layout="centered")
-st.title("🎬 Auto YouTube Description Generator")
-st.markdown("Upload a video file in Urdu and get a YouTube-ready description.")
-
-# --- Doctor's Details Input ---
 doctor_name = st.text_input("👨‍⚕ Doctor's Name")
 specialization = st.text_input("💼 Specialization")
 clinic = st.text_input("🏥 Clinic")
@@ -172,15 +181,13 @@ if uploaded_file:
         tmp_video.write(uploaded_file.read())
         video_path = tmp_video.name
 
-    # Check file size and handle accordingly
     if os.path.getsize(video_path) > 200 * 1024 * 1024:
         st.warning("The video is too large. It will be compressed before further processing.")
         compressed_video_path = "compressed_video.mp4"
         compress_video(video_path, compressed_video_path)
-        video_path = compressed_video_path  # Use the compressed video for further processing
+        video_path = compressed_video_path
         st.success("✅ Video compressed successfully.")
 
-    # If the video is large, split it into smaller chunks
     if os.path.getsize(video_path) > 200 * 1024 * 1024:
         st.warning("The video is large. Splitting it into smaller chunks...")
         chunks = split_video(video_path)
@@ -188,7 +195,6 @@ if uploaded_file:
     else:
         st.success("✅ Video uploaded. Extracting audio...")
 
-    # Extract audio and process
     audio_path = "extracted_stream_audio.wav"
     extract_audio(video_path, audio_path)
     chunks = split_audio(audio_path)
@@ -209,14 +215,11 @@ if uploaded_file:
         english_text, doctor_name, specialization, clinic, city, booking_link
     )
     
-    # Limit the description length to 2000 characters for large videos
     if os.path.getsize(video_path) > 200 * 1024 * 1024:
         description = limit_description_length(description, 2000)
     
-    # Clean the description
     description = clean_description(description)  # Clean the description
     
-    # Ensure the description is in 4 paragraphs
     paragraphs = description.split("\n")
     paragraph_count = 4
     if len(paragraphs) > paragraph_count:
