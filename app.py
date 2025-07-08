@@ -150,10 +150,10 @@ def generate_youtube_description(english_text, doctor_name, specialization, clin
         Your output should be a well-structured YouTube description with the following sections:
 
         Create a bilingual title (English + Roman Urdu) in 80 to 90 characters that is attention-grabbing and summarizes the video topic. Use simple language that is relatable to the local audience. Use the title words in the rest of the description.
-        The first 2-3 sentences should briefly summarize the key points of the video. Mention why it’s important and grab the viewer's attention. Use simple, engaging English to make it relatable.
-        Mention the doctor's name{doctor_name}, specialization{specialization}, and the clinic/hospital{clinic} they practice at with city name(city). Provide the booking link{booking_link} for consultations if applicable. Keep it concise and clear.
-        Use ✓ bullets for bullet points or a numbered list to mention the key topics covered in the video. Focus on making it simple and engaging, using simple English wherever applicable.
-        Share actionable advice or solutions that can help viewers. Include a strong call to action encouraging viewers to book a consultation or contact the doctor. Provide a booking link or phone number. Also Mention SEO Keywords in the last line. Ensure that the CTA uses simple English language to encourage immediate action.
+        The first 2-3 sentences should briefly summarize the key points of the video. Mention why it’s important and grab the viewer's attention. Use simple, engaging United States English to make it relatable.
+        Mention the doctor's name{doctor_name}, specialization{specialization}, and the clinic/hospital{clinic} they practice at with city name(city). Provide the booking link{booking_link} for consultations if applicable. Keep it concise and clear.Write in simple English "US".
+        Use ✓ bullets for bullet points or a numbered list to mention the key topics covered in the video. Focus on making it simple and engaging, using simple English "US" wherever applicable.
+        Share actionable advice or solutions that can help viewers. Include a strong call to action encouraging viewers to book a consultation or contact the doctor. Provide a booking link or phone number. Also Mention SEO Keywords in the last line with "#" signs. Ensure that the CTA uses simple English language "US" to encourage immediate action.
           
         """
     response = model.generate_content(prompt)
