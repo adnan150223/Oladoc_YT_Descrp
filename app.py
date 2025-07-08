@@ -12,6 +12,12 @@ from dotenv import load_dotenv
 # --- Configuration ---
 load_dotenv()
 
+import subprocess
+
+# Download the credentials file from Google Cloud Storage
+subprocess.run(["gsutil", "cp", "gs://oladoc-credentials-bucket/gen-lang-client-0407485922-53b28f3dc3ef.json", "./gen-lang-client-0407485922-53b28f3dc3ef.json"])
+
+
 # Get the Google Cloud credentials path from the environment variable
 google_credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
