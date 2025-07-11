@@ -151,9 +151,9 @@ def generate_youtube_description(english_text, doctor_name, specialization, clin
 
         Create a title for the video that is **between 80-90 characters**, composed of three parts:
 
-        1. The first part should be **in simple English**, catchy, and designed to grab the audience's attention (e.g., "How to Stay Healthy: Tips from Experts").
-        2. The second part should be **in Roman Urdu**, summarize the video with **SEO-rich keywords** to appeal to the local audience and improve search rankings (e.g., "Sehat ke liye asaan tareeqay aur doctor se mashwara").
-        3. The third part should be **in English**, adding more context and value to the title with simple language (e.g., "Get actionable advice on staying healthy from a professional doctor").
+        1. The first part should be **in simple English**, catchy, and designed to grab the audience's attention (e.g., "WHITE SPOTS on TEETH?").
+        2. The second part should be **in Roman Urdu**, summarize the video with **SEO-rich keywords** to appeal to the local audience and improve search rankings (e.g., "- Daanton Par Safed Nishan Ka Kya Matlab Hai").
+        3. The third part should be **in English**, adding more context and value to the title with simple language (e.g., "Enamel Defect Treatment").
 
         The title should be **humanized**, not AI-generated, and include relevant SEO keywords like "health", "doctor consultation", "tips", "sehat", and any other relevant keywords in the topic.
 
@@ -168,7 +168,7 @@ def generate_youtube_description(english_text, doctor_name, specialization, clin
 
         ### Example Structure:
 
-        **Title**: "How to Stay Healthy: Tips from Experts | Sehat ke liye asaan tareeqay aur doctor se mashwara | Get actionable advice from professional doctors on how to maintain your health"
+        **Title**: "Youth Depression:  Kya Ye Sirf Thakan Hai?  - Signs, Symptoms & Mental Health Tips"
 
         **Description**:
         -  In this video, we provide **health tips** and discuss **common mistakes** people make when trying to stay healthy.
