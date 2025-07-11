@@ -149,14 +149,38 @@ def generate_youtube_description(english_text, doctor_name, specialization, clin
         Make sure the whole description should be maximum of 2000 words limit. Do not make the headings and not bold words. Write everything in simple font.
         Your output should be a well-structured YouTube description with the following sections:
 
-        Create a bilingual YouTube title (80–90 characters) with three parts: the first in English that grabs attention, the second in Roman Urdu with SEO-rich keywords that summarize the topic, and the third in English that adds context and more SEO value. Use simple and relatable language for a local audience.
-        Write a three-paragraph YouTube description in English using only the keywords from the title. After each keyword, add its Roman Urdu translation in brackets. 
-        Keep the tone clear, friendly, and informative and attention grabbing. The format is shown following:
-        The first 2-3 sentences should briefly summarize the key points of the video. Mention why it’s important and grab the viewer's attention. Use simple, engaging United States English to make it relatable.
-        Mention the doctor's name{doctor_name}, specialization{specialization}, and the clinic/hospital{clinic} they practice at with city name(city). Provide the booking link{booking_link} for consultations if applicable. Keep it concise and clear.Write in simple English "US".
-        Use ✓ bullets for bullet points or a numbered list to mention the key topics covered in the video. Focus on making it simple and engaging, using simple English "US" wherever applicable.
-        Share actionable advice or solutions that can help viewers. Include a strong call to action encouraging viewers to book a consultation or contact the doctor. Provide a booking link or phone number. Also Mention SEO Keywords in the last line with "#" signs. Ensure that the CTA uses simple English language "US" to encourage immediate action.
-          
+        Create a title for the video that is **between 80-90 characters**, composed of three parts:
+
+        1. The first part should be **in simple English**, catchy, and designed to grab the audience's attention (e.g., "How to Stay Healthy: Tips from Experts").
+        2. The second part should be **in Roman Urdu**, summarize the video with **SEO-rich keywords** to appeal to the local audience and improve search rankings (e.g., "Sehat ke liye asaan tareeqay aur doctor se mashwara").
+        3. The third part should be **in English**, adding more context and value to the title with simple language (e.g., "Get actionable advice on staying healthy from a professional doctor").
+
+        The title should be **humanized**, not AI-generated, and include relevant SEO keywords like "health", "doctor consultation", "tips", "sehat", and any other relevant keywords in the topic.
+
+        Once the title is created, ensure that the **description** starts with a **brief 2-3 sentences summary** of the key points of the video, using engaging and simple **United States English**. The summary should mention **why the video is important**, making it clear and relatable for the audience.
+
+        Then include the following in the description:
+        1. Mention the **doctor's name**, **specialization**, **clinic/hospital**, and **city name**.
+        2. Provide a **booking link** for consultations if applicable.
+        3. Create a **bullet point list** with key topics covered in the video, focusing on simplicity and engagement, using **simple English (US)**.
+        4. Share actionable advice or solutions, and include a **strong call to action** that encourages viewers to book a consultation or contact the doctor. Mention the **booking link** or phone number.
+        5. Conclude the description with **SEO-rich keywords**, preceded by a "#", such as #doctorconsultation, #healthtips, #sehat, #doctor, #health, and others.
+
+        ### Example Structure:
+
+        **Title**: "How to Stay Healthy: Tips from Experts | Sehat ke liye asaan tareeqay aur doctor se mashwara | Get actionable advice from professional doctors on how to maintain your health"
+
+        **Description**:
+        -  In this video, we provide **health tips** and discuss **common mistakes** people make when trying to stay healthy.
+        - You'll learn from **Dr. John Doe**, a **general physician** based in **New York**, specializing in **preventative healthcare**.
+        - **Key Topics**:
+          ✓ Importance of daily exercise
+          ✓ Benefits of a balanced diet    
+          ✓ How to avoid common health issues
+        - If you're looking for professional healthcare advice, **book a consultation with Dr. John Doe** at **XYZ Clinic**. For booking, visit: **[Booking Link]**.
+        - Take charge of your health today, and don’t wait! Contact **Dr. John Doe** for expert guidance.
+        - **#doctorconsultation #healthtips #sehat #doctor #health**
+
         """
     response = model.generate_content(prompt)
     return response.text
