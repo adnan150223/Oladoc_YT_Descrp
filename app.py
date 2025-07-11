@@ -151,20 +151,19 @@ def generate_youtube_description(english_text, doctor_name, specialization, clin
 
         Create a title for the video that is **between 80-90 characters**, composed of three parts:
 
-        1. The first part should be **in simple English**, catchy, and designed to grab the audience's attention (e.g., "Youth Depression:").
+        1. The first part should be **in simple English**,it should cover main topic that summarise the whole video, catchy, and designed to grab the audience's attention (e.g., "Youth Depression:").
         2. The second part should be **in Roman Urdu**, summarize the video with **SEO-rich keywords** to appeal to the local audience and improve search rankings (e.g., "Kya Ye Sirf Thakan Hai?").
-        3. The third part should be **in English**, adding more context and value to the title with simple language  (e.g., "Signs, Symptoms & Mental Health Tips").
+        3. The third part should be **in English**, adding more context and value to the title with simple language like this   (e.g., "Signs, Symptoms & Mental Health Tips").
 
         The title should be **humanized**, not AI-generated, and include relevant SEO keywords like "health", "doctor consultation", "tips", "sehat", and any other relevant keywords in the topic.
 
         Once the title is created, ensure that the **description** starts with a **brief 2-3 sentences summary** of the key points of the video, using engaging and simple **United States English**. The summary should mention **why the video is important**, making it clear and relatable for the audience.
 
         Then include the following in the description:
-        1. Mention the **doctor's name**, **specialization**, **clinic/hospital**, and **city name**.
-        2. Provide a **booking link** for consultations if applicable.
-        3. Create a **bullet point list** with key topics covered in the video, focusing on simplicity and engagement, using **simple English (US)**.
-        4. Share actionable advice or solutions, and include a **strong call to action** that encourages viewers to book a consultation or contact the doctor. Mention the **booking link** or phone number.
-        5. Conclude the description with **SEO-rich keywords**, preceded by a "#", such as #doctorconsultation, #healthtips, #sehat, #doctor, #health, and others.
+        1. Mention the doctor's name{doctor_name}, specialization{specialization}, and the clinic/hospital{clinic} they practice at with city name(city). Provide the booking link{booking_link} for consultations if applicable. Keep it concise and clear.Write in simple English "US".
+        2. Create a **bullet point list** for bullet point use this sign "✓" with key topics covered in the video, focusing on simplicity and engagement, using **simple English (US)**.
+        3. Share actionable advice or solutions, and include a **strong call to action** that encourages viewers to book a consultation or contact the doctor. Mention the **booking link** or phone number.
+        4. Conclude the description with **SEO-rich keywords**, preceded by a "#", such as #doctorconsultation, #healthtips, #sehat, #doctor, #health, and others.
 
         ### Example Structure:
 
