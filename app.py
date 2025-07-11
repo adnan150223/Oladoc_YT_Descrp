@@ -149,7 +149,9 @@ def generate_youtube_description(english_text, doctor_name, specialization, clin
         Make sure the whole description should be maximum of 2000 words limit. Do not make the headings and not bold words. Write everything in simple font.
         Your output should be a well-structured YouTube description with the following sections:
 
-        Create a bilingual title (English + Roman Urdu) in 80 to 90 characters that is attention-grabbing and summarizes the video topic. Use simple language that is relatable to the local audience. Use the title words in the rest of the description.
+        Create a bilingual YouTube title (80–90 characters) with three parts: the first in English that grabs attention, the second in Roman Urdu with SEO-rich keywords that summarize the topic, and the third in English that adds context and more SEO value. Use simple and relatable language for a local audience.
+        Write a three-paragraph YouTube description in English using only the keywords from the title. After each keyword, add its Roman Urdu translation in brackets. 
+        Keep the tone clear, friendly, and informative and attention grabbing. The format is shown following:
         The first 2-3 sentences should briefly summarize the key points of the video. Mention why it’s important and grab the viewer's attention. Use simple, engaging United States English to make it relatable.
         Mention the doctor's name{doctor_name}, specialization{specialization}, and the clinic/hospital{clinic} they practice at with city name(city). Provide the booking link{booking_link} for consultations if applicable. Keep it concise and clear.Write in simple English "US".
         Use ✓ bullets for bullet points or a numbered list to mention the key topics covered in the video. Focus on making it simple and engaging, using simple English "US" wherever applicable.
