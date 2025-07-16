@@ -145,37 +145,43 @@ def generate_youtube_description(english_text, doctor_name, specialization, clin
        The final output should follow this **exact structure**:
 
        ---
+        *Title Generation Rules:**
 
-       🎯 **Title Format (Very Important):** Create a title that is between 80–90 characters, made of **3 parts**, and written to catch attention immediately, like a viral YouTube thumbnail text or an expert copywriter. Follow these rules strictly:
+         Generate **3 unique and creative titles** based on the video so the team can choose the best one. Each title must follow the exact format below and be **between 80 to 90 characters in total length** (strict limit — do not exceed 90 characters).
 
+         **Each title must be composed of 3 parts:**
         1. **Part 1 (English):** Use a **short, powerful, emotional hook** — like a question, surprising fact, urgent advice, or transformation (e.g., "Is Your Skin Dying in Summer?").
         2. **Part 2 (Roman Urdu):** Add local emotional relatability using **searchable phrases or keywords** (e.g., "Garmi Mein Skin Jalna Normal Hai?").
         3. **Part 3 (English):** Finish with clear, informative keywords like "Tips, Skincare Routine & Dermatologist Advice".
 
-        → Think like a **viral YouTube copywriter**, not like an AI summarizer. Your title should use **emotional language, curiosity, real-world pain points**, and avoid being generic.
+        🧠 Think like a **viral thumbnail creator, copywriter, and SEO expert**. Use **real-world pain points, emotions, curiosity**, and **urgency** — not generic, robotic phrases.
 
-        ❌ Avoid generic titles like “Skin Tips in Summer”  
-        ✅ Use titles like: “Why Most People Fail at Sun Protection | Garmi Mein Skin Kaise Bachaen? | Doctor Tips Inside”
+        ❌ Don’t generate boring or AI-style titles like:  
+        “Skin Tips in Summer: Garmi Mein Skin Kaise Bachayein? – Health Advice”
 
-           ---
-
-        📄 **Description Requirements:**
-
-         Write the full YouTube description in simple English and Roman Urdu. It must be:
-       - SEO-optimized
-       - Human-friendly (not AI-sounding)
-       - Written in **plain font** with **no bold or headings**
-       - Maximum length: **2000 words**
-       - Simple enough for a general Pakistani audience to understand
+        ✅ Instead, create titles like:  
+        “Is Your Skin Burning in Summer? | Garmi Mein Skin Jalna Normal Hai? | Doctor Sunscreen Guide”
 
         ---
 
+        📄 **Description Requirements:**
+
+         Write a full YouTube video description that is:
+         - **Clear**, **simple**, and **SEO-optimized**
+         - Written in **plain English and Roman Urdu**
+         - Avoids bold/heading tags — use plain text only
+         - **Max length: 2000 words**
+         - Written for a **broad Pakistani audience** (layman-level tone)
+         - Focused on summarizing the key takeaways, tips, and what the viewer will learn
+
+         ---
+
          Use this transcript:
 
-        *English Text:*
-        {english_text}
+         *English Text:*  
+         {english_text}
 
-        Once the title is created, ensure that the **description** starts with a **brief 2-3 sentences summary** of the key points of the video, using engaging and simple **United States English**. The summary should mention **why the video is important**, making it clear and relatable for the audience.
+         Once the title is created, ensure that the **description** starts with a **brief 2-3 sentences summary** of the key points of the video, using engaging and simple **United States English**. The summary should mention **why the video is important**, making it clear and relatable for the audience.
 
         Then include the following in the description:
         1. Mention the doctor's name{doctor_name}, specialization{specialization}, and the clinic/hospital{clinic} they practice at with city name(city). Provide the booking link{booking_link} for consultations if applicable. Keep it concise and clear.Write in simple English "US".
