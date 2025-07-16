@@ -140,22 +140,40 @@ Provide the translated text, fixing any errors and ensuring clarity.
 def generate_youtube_description(english_text, doctor_name, specialization, clinic, city, booking_link):
     model = genai.GenerativeModel("gemini-2.5-flash")
     prompt = f"""
-       You are a professional content creator for a healthcare platform. Your task is to generate a *YouTube video description* based on the provided text. The description should be clear, engaging, and SEO-optimized for a general audience, with both English and Roman Urdu text included. The description should be simple enough for a broad audience to understand.
+       You are a professional content strategist and expert YouTube scriptwriter for a leading healthcare channel. Your task is to write a complete, compelling, and SEO-optimized **YouTube video description** using the transcript provided. Your tone should be natural, relatable, and creative — not robotic.
 
-        The text you need to work with is the following:
+       The final output should follow this **exact structure**:
+
+       ---
+
+       🎯 **Title Format (Very Important):** Create a title that is between 80–90 characters, made of **3 parts**, and written to catch attention immediately, like a viral YouTube thumbnail text or an expert copywriter. Follow these rules strictly:
+
+        1. **Part 1 (English):** Use a **short, powerful, emotional hook** — like a question, surprising fact, urgent advice, or transformation (e.g., "Is Your Skin Dying in Summer?").
+        2. **Part 2 (Roman Urdu):** Add local emotional relatability using **searchable phrases or keywords** (e.g., "Garmi Mein Skin Jalna Normal Hai?").
+        3. **Part 3 (English):** Finish with clear, informative keywords like "Tips, Skincare Routine & Dermatologist Advice".
+
+        → Think like a **viral YouTube copywriter**, not like an AI summarizer. Your title should use **emotional language, curiosity, real-world pain points**, and avoid being generic.
+
+        ❌ Avoid generic titles like “Skin Tips in Summer”  
+        ✅ Use titles like: “Why Most People Fail at Sun Protection | Garmi Mein Skin Kaise Bachaen? | Doctor Tips Inside”
+
+           ---
+
+        📄 **Description Requirements:**
+
+         Write the full YouTube description in simple English and Roman Urdu. It must be:
+       - SEO-optimized
+       - Human-friendly (not AI-sounding)
+       - Written in **plain font** with **no bold or headings**
+       - Maximum length: **2000 words**
+       - Simple enough for a general Pakistani audience to understand
+
+        ---
+
+         Use this transcript:
 
         *English Text:*
         {english_text}
-        Make sure the whole description should be maximum of 2000 words limit. Do not make the headings and not bold words. Write everything in simple font.
-        Your output should be a well-structured YouTube description with the following sections:
-
-        Create a title for the video that is **between 80-90 characters**, composed of three parts:
-
-        1. The first part should be **in simple English**,it should cover main topic that summarise the whole video, catchy, and designed to grab the audience's attention (e.g., "Youth Depression:").
-        2. The second part should be **in Roman Urdu**, summarize the video with **SEO-rich keywords** to appeal to the local audience and improve search rankings (e.g., "Kya Ye Sirf Thakan Hai?").
-        3. The third part should be **in English**, adding more context and value to the title with simple language like this   (e.g., "Signs, Symptoms & Mental Health Tips").
-
-        The title should be **humanized**, not AI-generated, and include relevant SEO keywords like "health", "doctor consultation", "tips", "sehat", and any other relevant keywords in the topic.
 
         Once the title is created, ensure that the **description** starts with a **brief 2-3 sentences summary** of the key points of the video, using engaging and simple **United States English**. The summary should mention **why the video is important**, making it clear and relatable for the audience.
 
@@ -164,10 +182,6 @@ def generate_youtube_description(english_text, doctor_name, specialization, clin
         2. Create a **bullet point list** for bullet point use this sign "✓" with key topics covered in the video, focusing on simplicity and engagement, using **simple English (US)**.
         3. Share actionable advice or solutions, and include a **strong call to action** that encourages viewers to book a consultation or contact the doctor. Mention the **booking link** or phone number.
         4. Conclude the description with **SEO-rich keywords**, preceded by a "#", such as #doctorconsultation, #healthtips, #sehat, #doctor, #health, and others.
-
-        ### Example Structure:
-
-        **Title**: "Youth Depression:  Kya Ye Sirf Thakan Hai?  - Signs, Symptoms & Mental Health Tips"
 
         **Description**:
         -  In this video, we provide **health tips** and discuss **common mistakes** people make when trying to stay healthy.
